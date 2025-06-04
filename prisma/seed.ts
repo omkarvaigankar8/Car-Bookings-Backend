@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 async function main() {
     // clearing existing data
     await prisma.booking.deleteMany();
-    await prisma.user.deleteMany();
+    await prisma.vehicle.deleteMany();
     await prisma.vehicleType.deleteMany();
 
     const hatchback = await prisma.vehicleType.create({
