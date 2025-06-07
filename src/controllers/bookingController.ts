@@ -38,7 +38,7 @@ export const createBooking = async (req: Request<BookingRequest>, res: Response)
                 ],
             },
         });
-        console.log("overlapping Bookings", overlappingBookings)
+        // console.log("overlapping Bookings", overlappingBookings)
         if (overlappingBookings) {
             const bookingStart = new Date(overlappingBookings.startDate);
             const bookingEnd = new Date(overlappingBookings.endDate);
