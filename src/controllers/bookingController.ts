@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 
 import { PrismaClient } from '@prisma/client';
 import { BookingRequest } from '@/types';
+import moment from 'moment';
 
 const prisma = new PrismaClient();
 export const createBooking = async (req: Request<BookingRequest>, res: Response): Promise<void> => {
@@ -37,8 +38,21 @@ export const createBooking = async (req: Request<BookingRequest>, res: Response)
                 ],
             },
         });
+        console.log("overlapping Bookings", overlappingBookings)
         if (overlappingBookings) {
-            res.status(400).json({ error: 'This vehicle is already booked for the selected dates' });
+            const bookingStart = new Date(overlappingBookings.startDate);
+            const bookingEnd = new Date(overlappingBookings.endDate);
+            bookingStart.setHours(0, 0, 0, 0);
+            bookingEnd.setHours(0, 0, 0, 0);
+
+            const formattedStart = moment(bookingStart).format('YYYY-MM-DD');
+            const formattedEnd = moment(bookingEnd).format('YYYY-MM-DD');
+
+            if (formattedStart === formattedEnd) {
+                res.status(400).json({ error: `This vehicle is already booked for ${formattedStart}` });
+            } else {
+                res.status(400).json({ error: `This vehicle is already booked from ${formattedStart} to ${formattedEnd}` });
+            }
             return;
         }
         // const booking = await prisma.booking.create({

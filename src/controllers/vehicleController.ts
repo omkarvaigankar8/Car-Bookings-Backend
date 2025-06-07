@@ -8,7 +8,7 @@ export const getAllVehicles = async (req: Request, res: Response): Promise<void>
         const vehicles = await prisma.vehicle.findMany({
             where: {
                 vehicleTypeId: req.query.vehicleTypeId ? parseInt(req.query.vehicleTypeId as string) : undefined,
-                isAvailable: true
+                // isAvailable: true
             }
         });
 
