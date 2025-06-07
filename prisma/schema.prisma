@@ -25,6 +25,7 @@ model Vehicle {
   vehicleTypeId Int
   vehicleType   VehicleType  @relation(fields: [vehicleTypeId], references: [id])
   bookings      Booking[]
+  isAvailable   Boolean      @default(true)
 }
 
 model Booking {
